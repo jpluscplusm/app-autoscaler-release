@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -euo pipefail
+
 git submodule foreach --recursive git submodule sync && git submodule update --init --recursive
 
 pushd src/app-autoscaler/src/autoscaler
