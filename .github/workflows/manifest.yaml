@@ -14,22 +14,20 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          set -e
+          set -euxo pipefail
 
           export BOSH_VERSION=6.4.4
           wget -q https://github.com/cloudfoundry/bosh-cli/releases/download/v${BOSH_VERSION}/bosh-cli-${BOSH_VERSION}-linux-amd64 && \
           mv bosh-cli-* /usr/local/bin/bosh && \
           chmod +x /usr/local/bin/bosh
 
-          export YQ_VERSION=4.9.6
-          wget -q https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_amd64 && \
-          mv yq_linux_amd64 /usr/local/bin/yq && \
-          chmod +x /usr/local/bin/yq
+          export CUE_VERSION=0.4.0
+          wget -q -O - https://github.com/cue-lang/cue/releases/download/v${CUE_VERSION}/cue_v${CUE_VERSION}_linux_amd64.tar.gz \
+          | tar xfz - cue
+          mv cue /usr/local/bin/
 
       - name: Run Tests
         run: |
-          set -e
+          set -euxo pipefail
 
-          pushd example
-            ./manifest_tests.sh
-          popd
+          make -C example/operation/tests test
