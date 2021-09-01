@@ -1,14 +1,14 @@
 instance_groups: [...#ig]
 
-#ig: #interesting | #notinteresting
+#ig: #inscope | #notinscope
 
-#interesting: {
+#inscope: {
 	name: "asactors" | "asmetrics" | "asnozzle" | "asapi" | "postgres_autoscaler"
 	vm_type: "fake_vm_type"
 	...
 }
 
-#notinteresting: {
+#notinscope: {
 	name: != "asactors" & != "asmetrics" & != "asnozzle" & != "asapi" & != "postgres_autoscaler"
 	...
 }

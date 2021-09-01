@@ -1,14 +1,14 @@
 instance_groups: [...#ig]
 
-#ig: #pg | #notpg
+#ig: #inscope | #notinscope
 
-#pg: {
+#inscope: {
 	name: "postgres_autoscaler"
 	persistent_disk_type: "10GB"
 	...
 }
 
-#notpg: {
+#notinscope: {
 	name: != "postgres_autoscaler"
 	...
 }

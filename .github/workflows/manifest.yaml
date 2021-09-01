@@ -30,4 +30,4 @@ jobs:
         run: |
           set -euxo pipefail
 
-          make -C example/operation/tests test
+          cd example/operation/tests && test.sh

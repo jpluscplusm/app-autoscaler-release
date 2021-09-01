@@ -1,15 +1,14 @@
 instance_groups: [...#ig]
 
-#ig: #pg | #notpg
+#ig: #inscope | #notinscope
 
-#pg: {
+#inscope: {
 	name: "postgres_autoscaler"
-	// "assert that a key is missing" probably has a better representation in CUE ...
-	persistent_disk_type?: true & false
+	persistent_disk_type: null
 	...
 }
 
-#notpg: {
+#notinscope: {
 	name: != "postgres_autoscaler"
 	...
 }
