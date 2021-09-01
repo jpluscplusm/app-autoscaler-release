@@ -1,4 +1,4 @@
-name: bosh-release
+name: manifest-ops-files
 on:
   pull_request:
   workflow_dispatch:  
