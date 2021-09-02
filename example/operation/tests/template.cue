@@ -1,6 +1,6 @@
 package autoscaler
 
-name: "app-autoscaler"
+name: string
 
 releases: [...]
 addons: [...]
