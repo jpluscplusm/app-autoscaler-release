@@ -1,18 +1,31 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -uo pipefail
 
-cd $(dirname $0)
+cd "$(dirname $0)"
+
+FAIL=0
 
 for YML in *.yml; do
-    STEM=${YML%.yml}
 
-    if [ $STEM = "template" ]; then continue; fi
+    STEM="${YML%.yml}"
+    if [ "$STEM" = "template" ]; then continue; fi
+    echo "# $STEM:"
 
-    bosh int template.yml --vars-file $STEM.vars \
-    | cue vet template.cue $STEM.before.cue yaml: -
+    echo "  test 1:"
+    echo "    input:  template.yml + vars:$STEM.vars + opsfile:none"
+    echo "    schema: template.cue + $STEM.before.cue"
+    bosh int template.yml --vars-file "$STEM.vars" \
+    | cue vet template.cue "$STEM.before.cue" yaml: -
+    FAIL=$((FAIL+$?))
 
-    bosh int template.yml --vars-file $STEM.vars --ops-file $STEM.yml \
-    | cue vet template.cue $STEM.after.cue yaml: -
+    echo "  test 2:"
+    echo "    input:  template.yml + vars:$STEM.vars + opsfile:$STEM.yml"
+    echo "    schema: template.cue + $STEM.after.cue"
+    bosh int template.yml --vars-file "$STEM.vars" --ops-file "$STEM.yml" \
+    | cue vet template.cue "$STEM.after.cue" yaml: -
+    FAIL=$((FAIL+$?))
 
 done
+
+exit $FAIL
