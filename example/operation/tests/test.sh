@@ -11,7 +11,7 @@ for YML in *.yml; do
 
     bosh int template.yml --vars-file $STEM.vars \
     | cue vet template.cue $STEM.before.cue yaml: -
-    
+
     bosh int template.yml --vars-file $STEM.vars --ops-file $STEM.yml \
     | cue vet template.cue $STEM.after.cue yaml: -
 
